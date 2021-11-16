@@ -7,7 +7,10 @@ const Banner = () => {
         src="https://links.papareact.com/0fm"
         layout="fill"
         objectFit="cover"
-        priority={true}
+        priority
+        quality={85}
+        loading="eager"
+
 
       />
       <div className="absolute top-1/2 w-full text-center">
