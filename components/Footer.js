@@ -1,7 +1,7 @@
 function Footer() {
   return (
       <>
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-y-14 gap-x-20 px-16 xl:px-60 bg-gray-100 text-gray-600 pb-10">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-y-14 gap-x-20 px-16 xl:px-60 bg-gray-100 text-gray-600 pb-10 pt-10">
 
       <div className="space-y-4 text-gray-800 text-xs">
         <h5 className="font-bold">ABOUT</h5>

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useState } from "react";
 
 import {
   GlobeAltIcon,
@@ -8,11 +9,60 @@ import {
   UsersIcon,
 } from "@heroicons/react/solid";
 
+import { DateRangePicker } from "react-date-range";
+// REACT DATE RANGE CSS'S AND THEME
+import "react-date-range/dist/styles.css"; // main style file
+import "react-date-range/dist/theme/default.css"; // theme css file
+import { useRouter } from "next/dist/client/router";
+
 const Header = () => {
+  //Map input value to a piece of state3
+  const [searchInput, setSearchInput] = useState("");
+  // Valor del state para la  fecha de inicio y fin del calendario
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  //State para el numero de personas. default 1 persona
+  const [noOfGuests, setNoOfGuests] = useState(1);
+
+  const router = useRouter(); // call al router por la constante
+
+  const handleSelect = (ranges) => {
+    setStartDate(ranges.selection.startDate); //comes from the library, updating localstate
+    setEndDate(ranges.selection.endDate);
+  };
+
+  //Constante para el onclick del boton cancelar, vuelve al initial state el setSearchInput
+  const resetInput = () => {
+    setSearchInput("");
+  };
+
+  //pasamos query a traves de la funcion search, para mandarlo por el router como direccion
+  const search = () => {
+    router.push({
+      pathname: '/search',
+      query: {
+        location: searchInput,
+        startDate: startDate.toISOString(), //Convertimos a string las fechas .toISOstring()
+        endDate: endDate.toISOString(),
+        noOfGuests,
+      },
+    });
+  };
+
+  //Constante con el state de start y endDate
+  const selectionRange = {
+    startDate: startDate,
+    endDate: endDate,
+    key: "selection",
+  };
+
   return (
     <header className="sticky top-0 z-50 grid grid-cols-3 bg-white shadow-md p-5 md:px-10">
       {/* LEFT */}
-      <div className="relative flex items-center h-10 cursor-pointer">
+      <div
+        onClick={() => router.push("/")}
+        className="relative flex items-center h-10 cursor-pointer"
+      >
         <Image
           src="https://links.papareact.com/qd3"
           layout="fill"
@@ -23,6 +73,9 @@ const Header = () => {
       {/* MIDDLE */}
       <div className="flex items-center md:border-2 rounded-full py-2 md:shadow-sm">
         <input
+          //Ponemos el valor del state al input
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
           className="flex-grow pl-5 bg-transparent outline-none text-sm text-gray-600"
           type="text"
           placeholder="Start Your Search"
@@ -33,12 +86,44 @@ const Header = () => {
       <div className="flex items-center justify-end space-x-4 text-gray-500">
         <p className="hidden md:inline cursor-pointer">Become a Host!</p>
         <GlobeAltIcon className="cursor-pointer h-6" />
-        
+
         <div className="flex items-center space-x-2 border-2 p-2 rounded-full">
           <MenuIcon className="h-6" />
           <UserCircleIcon className="h-6" />
         </div>
       </div>
+      {/* Si searchInput tiene un valor Renderiza  */}
+      {searchInput && (
+        <div className="flex flex-col col-span-3 mx-auto">
+          {" "}
+          {/*mx-auto centra el contenido*/}
+          <DateRangePicker
+            ranges={[selectionRange]}
+            minDate={new Date()} //MinDate= Today
+            rangeColors={["#FD5B61"]}
+            onChange={handleSelect} // receive values user selecting to update dates
+          />
+          <div className="flex items-center border-b mb-4">
+            <h2 className="text-2xl flex-grow font-semibold ">
+              Number of Guests
+            </h2>
+            <UsersIcon className="h-5" />
+            <input
+              value={noOfGuests}
+              onChange={(e) => setNoOfGuests(e.target.value)} // mapea el valor
+              type="number"
+              min={1}
+              className="w-12 pl-2 text-lg outline-none text-red-400"
+            />
+          </div>
+          <div className="flex">
+            <button onClick={resetInput} className="flex-grow text-gray-500">
+              Cancel
+            </button>
+            <button onClick={search} className="flex-grow text-red-400">Search</button>
+          </div>
+        </div>
+      )}
     </header>
   );
 };

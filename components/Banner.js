@@ -11,7 +11,6 @@ const Banner = () => {
         quality={85}
         loading="eager"
 
-
       />
       <div className="absolute top-1/2 w-full text-center">
         <p className="text-sm sm:text-lg xl:text-xl">Not Sure where to go? Perfect.</p>
