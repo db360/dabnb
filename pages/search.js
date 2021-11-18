@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import InfoCard from "../components/InfoCard";
+import Map from "../components/Map";
 
 const Search = ({ searchResults }) => {
   const router = useRouter();
@@ -56,6 +57,11 @@ const Search = ({ searchResults }) => {
             )}
           </div>
         </section>
+
+        <section className="hidden xl:inline-flex xl:min-w-[600px]">
+          {/* pasamos las props hacia el componente maps */}
+          <Map searchResults={searchResults}/>
+        </section>
       </main>
       <Footer />
     </div>
@@ -64,6 +70,7 @@ const Search = ({ searchResults }) => {
 
 export default Search;
 
+//Server side rendering - fetch info from a middle server and renders the page to browser
 export async function getServerSideProps() {
   const searchResults = await fetch("https://links.papareact.com/isz").then(
     (res) => res.json()
