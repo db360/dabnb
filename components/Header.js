@@ -15,7 +15,7 @@ import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { useRouter } from "next/dist/client/router";
 
-const Header = () => {
+const Header = ({placeholder}) => {
   //Map input value to a piece of state3
   const [searchInput, setSearchInput] = useState("");
   // Valor del state para la  fecha de inicio y fin del calendario
@@ -78,7 +78,7 @@ const Header = () => {
           onChange={(e) => setSearchInput(e.target.value)}
           className="flex-grow pl-5 bg-transparent outline-none text-sm text-gray-600"
           type="text"
-          placeholder="Start Your Search"
+          placeholder={placeholder || "Start Your Search"}
         />
         <SearchIcon className="hidden md:inline-flex h-8 bg-red-400 text-white rounded-full p-2 cursor-pointer md:mx-2" />
       </div>

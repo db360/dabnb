@@ -57,7 +57,7 @@ export default function Home({ exploreData, cardsData }) {
   );
 }
 
-// TELLS NEXTJS THIS IS SERVER SIDE RENDERING
+// TELLS NEXTJS THIS IS STATIC RENDERING
 export async function getStaticProps() {
   //JSON objetos con img, location, distance
   const exploreData = await fetch("https://links.papareact.com/pyp").then(
